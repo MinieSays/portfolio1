@@ -1,45 +1,59 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import { FaLocationArrow } from "react-icons/fa6";
 import emailjs from "emailjs-com";
-import { socialMedia } from "@/data";
+import { toast } from "react-hot-toast";
 import MagicButton from "./MagicButton";
+import { socialMedia } from "@/data";
 
 const Footer = () => {
-  // Properly typed ref for the form
-  const form = useRef<HTMLFormElement | null>(null);
+  // State to manage form values
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    message: "",
+  });
 
+  // Handle input changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  // Handle form submission
   const sendEmail = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (form.current) {
-      emailjs
-        .sendForm(
-          "service_42ic5hi",
-          "template_a3q4i04",
-          form.current,
-          "7wxX0U7TD5w60Xlp_"
-        )
-        .then(
-          (result) => {
-            console.log("Message sent:", result.text);
-            alert("Message successfully sent!");
-          },
-          (error) => {
-            console.log("Message failed:", error.text);
-            alert("Failed to send message, please try again.");
-          }
-        );
-    } else {
-      console.error("Form reference is not available.");
-    }
+    emailjs
+      .send("service_42ic5hi", "template_a3q4i04", formData, "7wxX0U7TD5w60Xlp_")
+      .then(
+        (result) => {
+          toast.success("Your message has been sent successfully!", {
+            duration: 5000,
+          });
+          setFormData({
+            name: "",
+            phone: "",
+            email: "",
+            message: "",
+          });
+        },
+        (error) => {
+          toast.error("Failed to send the message, please try again.", {
+            duration: 5000,
+          });
+        }
+      );
   };
 
   return (
     <section className="w-full mb-[100px] pb-10 md:mb-5" id="contact">
       <div className="flex flex-col md:flex-row gap-16 max-w-6xl mx-auto">
         <form
-          ref={form}
           onSubmit={sendEmail}
           className="w-full md:w-1/2 p-6 backdrop-filter backdrop-blur-lg bg-opacity-75 bg-black-200 rounded-lg border border-black-300"
         >
@@ -54,6 +68,8 @@ const Footer = () => {
               <input
                 type="text"
                 name="name"
+                value={formData.name}
+                onChange={handleChange}
                 required
                 className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:to-blue-500 focus:border-transparent"
               />
@@ -64,8 +80,10 @@ const Footer = () => {
                 Phone Number
               </label>
               <input
-                type="text"
+                type="tel"
                 name="phone"
+                value={formData.phone}
+                onChange={handleChange}
                 required
                 className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:to-blue-500 focus:border-transparent"
                 onInput={(e: React.FormEvent<HTMLInputElement>) => {
@@ -82,6 +100,8 @@ const Footer = () => {
               <input
                 type="email"
                 name="email"
+                value={formData.email}
+                onChange={handleChange}
                 required
                 className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:to-blue-500 focus:border-transparent"
               />
@@ -94,6 +114,8 @@ const Footer = () => {
               <textarea
                 name="message"
                 rows={4}
+                value={formData.message}
+                onChange={handleChange}
                 required
                 className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:to-blue-500 focus:border-transparent"
               ></textarea>
@@ -132,13 +154,8 @@ const Footer = () => {
                   key={info.id}
                   className="w-10 h-10 cursor-pointer flex justify-center items-center backdrop-filter backdrop-blur-lg saturate-180 bg-opacity-75 bg-black-200 rounded-lg border border-black-300"
                 >
-                  <a href={info.link} target="_blank">
-                    <img
-                      src={info.img}
-                      alt="icons"
-                      width={20}
-                      height={20}
-                    />
+                  <a href={info.link} target="_blank" rel="noopener noreferrer">
+                    <img src={info.img} alt="icons" width={20} height={20} />
                   </a>
                 </div>
               ))}
