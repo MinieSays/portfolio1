@@ -4,7 +4,6 @@ import { FaLocationArrow } from "react-icons/fa6";
 import emailjs from "emailjs-com";
 import { socialMedia } from "@/data";
 import MagicButton from "./MagicButton";
-import Image from "next/image";
 
 const Footer = () => {
   // Properly typed ref for the form
