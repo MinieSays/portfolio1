@@ -4,37 +4,42 @@ import { FaLocationArrow } from "react-icons/fa6";
 import emailjs from "emailjs-com";
 import { socialMedia } from "@/data";
 import MagicButton from "./MagicButton";
+import Image from "next/image";
 
 const Footer = () => {
-  const form = useRef();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const sendEmail = (e) => {
+  // Properly typed ref for the form
+  const form = useRef<HTMLFormElement | null>(null);
+
+  const sendEmail = (e: React.FormEvent) => {
     e.preventDefault();
-    emailjs
-      .sendForm(
-        "service_42ic5hi",
-        "template_a3q4i04",
-// @ts-expect-error form is gucci
-        form.current,
-        "7wxX0U7TD5w60Xlp_"
-      )
-      .then(
-        (result) => {
-          console.log("Message sent:", result.text);
-          alert("Message successfully sent!");
-        },
-        (error) => {
-          console.log("Message failed:", error.text);
-          alert("Failed to send message, please try again.");
-        }
-      );
+
+    if (form.current) {
+      emailjs
+        .sendForm(
+          "service_42ic5hi",
+          "template_a3q4i04",
+          form.current,
+          "7wxX0U7TD5w60Xlp_"
+        )
+        .then(
+          (result) => {
+            console.log("Message sent:", result.text);
+            alert("Message successfully sent!");
+          },
+          (error) => {
+            console.log("Message failed:", error.text);
+            alert("Failed to send message, please try again.");
+          }
+        );
+    } else {
+      console.error("Form reference is not available.");
+    }
   };
 
   return (
     <section className="w-full mb-[100px] pb-10 md:mb-5" id="contact">
       <div className="flex flex-col md:flex-row gap-16 max-w-6xl mx-auto">
         <form
-// @ts-expect-error form is gucci
           ref={form}
           onSubmit={sendEmail}
           className="w-full md:w-1/2 p-6 backdrop-filter backdrop-blur-lg bg-opacity-75 bg-black-200 rounded-lg border border-black-300"
@@ -63,7 +68,7 @@ const Footer = () => {
                 type="text"
                 name="phone"
                 required
-                className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:to-blue-500  focus:border-transparent"
+                className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:to-blue-500 focus:border-transparent"
                 onInput={(e: React.FormEvent<HTMLInputElement>) => {
                   const target = e.target as HTMLInputElement;
                   target.value = target.value.replace(/[^0-9]/g, "");
@@ -79,7 +84,7 @@ const Footer = () => {
                 type="email"
                 name="email"
                 required
-                className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:to-blue-500  focus:border-transparent"
+                className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:to-blue-500 focus:border-transparent"
               />
             </div>
 
@@ -91,7 +96,7 @@ const Footer = () => {
                 name="message"
                 rows={4}
                 required
-                className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:to-blue-500  focus:border-transparent"
+                className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:to-blue-500 focus:border-transparent"
               ></textarea>
             </div>
 

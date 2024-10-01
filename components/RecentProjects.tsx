@@ -1,8 +1,8 @@
 "use client";
 
-
 import { projects } from "@/data";
 import { PinContainer } from "./ui/Pin";
+import Image from "next/image";
 
 const RecentProjects = () => {
   return (

@@ -102,11 +102,7 @@ export const projects = [
 ];
 
 export const companies = [
-  {
-    id: 1,
-    name: "React",
-    img: "/re.svg",
-  },
+
   {
     id: 2,
     name: "Javascript",
