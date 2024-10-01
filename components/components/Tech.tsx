@@ -12,7 +12,7 @@ const Tech = () => {
         {companies.map((company) => (
           <React.Fragment key={company.id}>
             <div className="flex md:max-w-60 max-w-32 gap-2 transform transition-transform duration-300 hover:scale-110 items-center">
-              <img loading="lazy"
+              <img 
                 src={company.img}
                 alt={company.name}
                 className="md:w-5 w-5"

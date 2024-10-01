@@ -127,7 +127,7 @@ const Footer = () => {
                 >
                   <a href={info.link} target="_blank">
                     <img
-                      loading="lazy"
+           
                       src={info.img}
                       alt="icons"
                       width={20}

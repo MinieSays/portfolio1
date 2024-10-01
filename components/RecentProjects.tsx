@@ -25,8 +25,8 @@ const RecentProjects = () => {
                   className="relative w-full h-full overflow-hidden lg:rounded-3xl"
                   style={{ backgroundColor: "#13162D" }}
                 >
-                  <img loading="lazy" src="/bg.png" alt="bgimg" />
-                  <img loading="lazy"
+                  <img src="/bg.png" alt="bgimg" />
+                  <img
                     src={item.img}
                     alt="cover"
                     className="z-10 absolute bottom-[-2rem]"
